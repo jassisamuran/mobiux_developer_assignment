@@ -43,12 +43,19 @@ vector<SaleRecord> parseData(const string& filepath){
 void calculatesSales(const vector<SaleRecord>& data){
     double totalSales=0;
     map<string,double>monthlySales;
+
     for(const auto& record:data){
         string month=record.date.substr(0,7);
         double saleAmount=record.quantity*record.unitPrice;
         totalSales+=saleAmount;
+
+        monthlySales[month]+=saleAmount;
     }
     cout<<"Total Sales of Store: "<<totalSales<<endl;
+    cout<<"Month-wise Sales Total"<<endl;
+    for(const auto& month:monthlySales){
+        cout<<month.first<<": "<<month.second<<endl;
+    }
 
 }
 int main(){
