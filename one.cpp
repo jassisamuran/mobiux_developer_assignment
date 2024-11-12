@@ -3,13 +3,14 @@ using namespace std;
 #include<fstream>
 #include<sstream>
 #include<vector>
+#include<map>
 #include<string>
 // struct for sales how data is added 
 struct SaleRecord{
     string date;
     string sku;
     double unitPrice;
-    double quality;
+    double quantity;
     
 };
 
@@ -39,17 +40,31 @@ vector<SaleRecord> parseData(const string& filepath){
     }
     return data;
 }
+void calculatesSales(const vector<SaleRecord>& data){
+    double totalSales=0;
+    map<string,double>monthlySales;
+    for(const auto& record:data){
+        string month=record.date.substr(0,7);
+        double saleAmount=record.quantity*record.unitPrice;
+        totalSales+=saleAmount;
+    }
+    cout<<"Total Sales of Store: "<<totalSales<<endl;
+
+}
 int main(){
     std::ifstream file("one.txt");
     if(!file.is_open()){
         // if there is error opening in file then then close file()
         cout<<"error opening of file";
         return 0;
-    }else{
-        cout<<"file is opened";
+    }
+    else
+    {
+        // cout<<"file is opened"<<endl;
     }
     
     vector<SaleRecord> data=parseData("one.txt");
-    
+    calculatesSales(data);
+
     return 0;
 }
