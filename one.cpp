@@ -42,19 +42,40 @@ vector<SaleRecord> parseData(const string& filepath){
 }
 void calculatesSales(const vector<SaleRecord>& data){
     double totalSales=0;
-    map<string,double>monthlySales;
+    map<string,double>monthlySales;//used string for storing month as string 
+    map<string,map<string, int>> monthlyPopularItems;// used map with string for months popularitems 
 
     for(const auto& record:data){
         string month=record.date.substr(0,7);
         double saleAmount=record.quantity*record.unitPrice;
+        // Total sales
         totalSales+=saleAmount;
-
+        // Monthly sales
         monthlySales[month]+=saleAmount;
+
+        // Track quantity for popular items
+        monthlyPopularItems[month][record.sku] += record.quantity;
     }
     cout<<"Total Sales of Store: "<<totalSales<<endl;
+    
     cout<<"Month-wise Sales Total"<<endl;
+    
     for(const auto& month:monthlySales){
         cout<<month.first<<": "<<month.second<<endl;
+    }
+
+    cout<<"Most Popular Items for Each Months"<<endl;
+    // used simple approach brute force approach 
+    for(const auto& items:monthlyPopularItems){
+        string popurItem;
+        int maxQnty=0;
+        for(const auto& item_qty:items.second){
+            if(item_qty.second>maxQnty){
+                maxQnty=item_qty.second;
+                popurItem=item_qty.first;
+            }
+        }
+        cout<<items.first<<": Item: "<<popurItem<<" Quantity Sold: "<<maxQnty<<endl;
     }
 
 }
