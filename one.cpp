@@ -7,11 +7,12 @@ using namespace std;
 #include<string>
 #include<iomanip>
 #include<limits>
+
 // struct for sales how data is added 
 struct SaleRecord{
     string date;
     string sku;
-    double unitPrice;
+    double Price;
     int quantity;
     
 };
@@ -31,8 +32,9 @@ vector<SaleRecord> parseData(const string& filepath){
         //getline is used to read value up to ','
         getline(ss,date,',');
         getline(ss,item,',');
-        getline(ss,quantityStr,',');
         getline(ss,priceStr,',');
+        getline(ss,quantityStr,',');
+        
         
         quantity=stoi(quantityStr);
         price=stod(priceStr);
@@ -51,7 +53,7 @@ void calculatesSales(const vector<SaleRecord>& data){
 
     for(const auto& record:data){
         string month=record.date.substr(0,7);
-        double saleAmount=record.quantity*record.unitPrice;
+        double saleAmount=record.quantity*record.Price;
         // Total sales
         totalSales+=saleAmount;
         // Monthly sales
@@ -81,10 +83,12 @@ void calculatesSales(const vector<SaleRecord>& data){
         string popurItem;
         int maxQnty=0;
         for(const auto& item_qty:items.second){
+
             if(item_qty.second>maxQnty){
                 maxQnty=item_qty.second;
                 popurItem=item_qty.first;
             }
+
         }
         cout<<items.first<<": Item: "<<popurItem<<" Quantity Sold: "<<maxQnty<<endl;
     }
@@ -93,11 +97,14 @@ void calculatesSales(const vector<SaleRecord>& data){
     for(const auto&month_Items:monthlyRevenueItems){
         string revenueItem;
         double maxRevenue=0;
+
         for(const auto& item_Revenue:month_Items.second){
+
             if(item_Revenue.second>maxRevenue){
                 maxRevenue=item_Revenue.second;
                 revenueItem=item_Revenue.first;
             }
+
         }
         cout<<month_Items.first<<": Item: "<<revenueItem<<" Revenue: "<<maxRevenue<<endl;
     }
@@ -108,11 +115,14 @@ void calculatesSales(const vector<SaleRecord>& data){
         // Find the most popular item for this month
         string popularItem;
         int maxQuantity=0;
+
         for(const auto & item_quantities:monthlyPopularItems[month_item.first]){
+
             if(item_quantities.second>maxQuantity){
                 maxQuantity=item_quantities.second;
                 popularItem=item_quantities.first;
             }
+
         }
         
         // Get the order quantities for the most popular item
