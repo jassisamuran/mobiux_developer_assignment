@@ -35,8 +35,9 @@ vector<SaleRecord> parseData(const string& filepath){
         getline(ss,priceStr,',');
         getline(ss,quantityStr,',');
         
-        
+        // stoi is used to convert string into int 
         quantity=stoi(quantityStr);
+        // stod is used to convert string into double
         price=stod(priceStr);
         data.push_back({date,item,price,quantity});
         
@@ -110,12 +111,14 @@ void calculatesSales(const vector<SaleRecord>& data){
     }
 
     cout<<"Order statistics for Most popular Item Each Month"<<endl;
-
+    // in this we use map orderStatus with month and name 
+    // put all data into vector 
     for(const auto& month_item:orderStats){
         // Find the most popular item for this month
         string popularItem;
         int maxQuantity=0;
 
+        // for finding popular items for each month with name
         for(const auto & item_quantities:monthlyPopularItems[month_item.first]){
 
             if(item_quantities.second>maxQuantity){
